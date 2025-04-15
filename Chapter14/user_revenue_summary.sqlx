@@ -1,0 +1,21 @@
+config { 
+  type: "table", 
+  tags: ["daily"], 
+  assertions: { 
+    nonNull: ["user_id"], 
+    rowConditions: ["email like '%@%.%'", "revenue > 0"] 
+  } 
+} 
+ 
+select 
+  u.id as user_id, 
+  u.first_name, 
+  u.last_name, 
+  u.email, 
+  ur.revenue 
+from 
+  ${ref("user_revenue")} ur 
+join 
+  ${ref("users")} u 
+on 
+  ur.user_id = u.id 
