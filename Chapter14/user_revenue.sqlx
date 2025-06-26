@@ -1,0 +1,23 @@
+config { 
+  type: "table", 
+  tags: ["daily"], 
+  assertions: { 
+    uniqueKey: ["user_id"], 
+    nonNull: ["user_id"], 
+    rowConditions: ["revenue > 0"] 
+  } 
+} 
+ 
+select 
+  o.user_id, 
+  sum(oi.sale_price) as revenue 
+from 
+  ${ref("orders")} o 
+join 
+  ${ref("order_items")} oi 
+on 
+  o.order_id = oi.order_id 
+where 
+  o.status = 'Complete' 
+group by 
+  o.user_id 
