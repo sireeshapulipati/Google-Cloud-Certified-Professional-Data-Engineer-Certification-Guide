@@ -1,8 +1,11 @@
 from pyspark.sql import SparkSession
 
+temp_bucket = "gs://ecommerce-data-bucket-<unique-suffix>-temp"
+
 # Initialize Spark session
 spark = SparkSession.builder \
     .appName("Ecommerce Data Analysis") \
+    .config("temporaryGcsBucket", temp_bucket) \
     .getOrCreate()
 
 # Load the data
